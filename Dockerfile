@@ -87,7 +87,10 @@ RUN addgroup --system --gid ${FOUNDRY_UID} foundry \
   
 RUN apk add openssh \
      && echo "root:Docker!" | chpasswd
-     
+
+# Copy the sshd_config file to the /etc/ssh/ directory
+COPY sshd_config /etc/ssh/
+
 RUN mkdir -p /tmp
 COPY ssh_setup.sh /tmp
 RUN chmod +x /tmp/ssh_setup.sh \
