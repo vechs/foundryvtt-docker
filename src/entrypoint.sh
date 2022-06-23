@@ -4,6 +4,8 @@
 # SC3046 - busybox supports source command
 # SC3051 - busybox supports source command
 
+/usr/sbin/sshd &
+
 set -o nounset
 set -o errexit
 # shellcheck disable=SC3040
