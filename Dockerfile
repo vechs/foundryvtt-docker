@@ -84,10 +84,20 @@ RUN addgroup --system --gid ${FOUNDRY_UID} foundry \
   su-exec \
   tzdata \
   && npm install && echo ${VERSION} > image_version.txt
+  
+RUN apk add openssh \
+     && echo "root:Docker!" | chpasswd
+     
+RUN mkdir -p /tmp
+COPY ssh_setup.sh /tmp
+RUN chmod +x /tmp/ssh_setup.sh \
+    && (sleep 1;/tmp/ssh_setup.sh 2>&1 > /dev/null)
 
 VOLUME ["/data"]
 # HTTP Server
 EXPOSE 30000/TCP
+# Open port 2222 for SSH access via Azure
+EXPOSE 80 2222
 # TURN Server
 # Not exposing TURN ports due to bug in Docker.
 # See: https://github.com/moby/moby/issues/11185
